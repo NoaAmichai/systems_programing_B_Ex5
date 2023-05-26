@@ -12,7 +12,7 @@ public:
 
     void removeElement(int element) {};
 
-    std::size_t size() const { return 0; }
+    std::size_t size() const { return _elements.size(); }
 
     class AscendingIterator;
 
@@ -22,47 +22,47 @@ public:
 
     class Iterator {
     protected:
-        const MagicalContainer& container;
+        const MagicalContainer &container;
         std::size_t currentIndex;
 
-        Iterator(const MagicalContainer& container)
+        Iterator(const MagicalContainer &container)
                 : container(container), currentIndex(0) {}
 
     public:
-        virtual ~Iterator() {}
+        virtual ~Iterator() = default;
 
         virtual int operator*() const = 0;
-        virtual Iterator& operator++() = 0;
-        virtual bool operator==(const Iterator& other) const = 0;
-        virtual bool operator!=(const Iterator& other) const = 0;
 
-        Iterator begin();
-        Iterator end();
+        virtual Iterator &operator++() = 0;
+
+        virtual bool operator==(const Iterator &other) const = 0;
+
+        virtual bool operator!=(const Iterator &other); //? TODO CHECK
+//
+//        Iterator begin();
+//        Iterator end();
     };
 
 
-    class AscendingIterator: public Iterator{
-    private:
-        const MagicalContainer &container;
-        int currentIndex;
+    class AscendingIterator : public Iterator {
     public:
         AscendingIterator(const MagicalContainer &container);
 
         AscendingIterator(const AscendingIterator &other);
 
-        ~AscendingIterator();
+        ~AscendingIterator() override;
 
         AscendingIterator &operator=(const AscendingIterator &other);
 
-        bool operator==(const AscendingIterator &other) const;
+        bool operator==(const Iterator &other) const override;
 
         bool operator>(const AscendingIterator &other) const;
 
         bool operator<(const AscendingIterator &other) const;
 
-        int operator*() const;
+        int operator*() const override;
 
-        AscendingIterator &operator++();
+        AscendingIterator &operator++() override;
 
         AscendingIterator begin();
 
@@ -70,9 +70,8 @@ public:
 
     };
 
-    class SideCrossIterator :public Iterator{
+    class SideCrossIterator : public Iterator {
     private:
-        const MagicalContainer &container;
         int forwardIndex;
         int backwardIndex;
         bool moveForward;
@@ -81,31 +80,27 @@ public:
 
         SideCrossIterator(const SideCrossIterator &other);
 
-        ~SideCrossIterator();
+        ~SideCrossIterator() override;
 
         SideCrossIterator &operator=(const SideCrossIterator &other);
 
-        bool operator==(const SideCrossIterator &other) const;
-
+        bool operator==(const Iterator &other) const override;
 
         bool operator>(const SideCrossIterator &other) const;
 
         bool operator<(const SideCrossIterator &other) const;
 
-        int operator*() const;
+        int operator*() const override;
 
-        SideCrossIterator &operator++();
+        SideCrossIterator &operator++() override;
 
         SideCrossIterator begin();
 
         SideCrossIterator end();
     };
 
-    class PrimeIterator: public Iterator{
+    class PrimeIterator : public Iterator {
     private:
-        const MagicalContainer &container;
-        int currentIndex;
-
         bool isPrime(int number) const;
 
     public:
@@ -113,19 +108,19 @@ public:
 
         PrimeIterator(const PrimeIterator &other);
 
-        ~PrimeIterator();
+        ~PrimeIterator() override;
 
         PrimeIterator &operator=(const PrimeIterator &other);
 
-        bool operator==(const PrimeIterator &other) const;
+        bool operator==(const Iterator &other) const override;
 
         bool operator>(const PrimeIterator &other) const;
 
         bool operator<(const PrimeIterator &other) const;
 
-        int operator*() const;
+        int operator*() const override;
 
-        PrimeIterator &operator++();
+        PrimeIterator &operator++() override;
 
         PrimeIterator begin();
 
