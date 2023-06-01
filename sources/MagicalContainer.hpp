@@ -10,19 +10,13 @@ namespace ariel {
         std::vector<int> elements;
 
     public:
-        // Add an element to the container
-        void addElement(int element) {
-            elements.push_back(element);
-        }
+        MagicalContainer();
 
-        // Remove an element from the container
-        void removeElement(int element) {
-        }
+        void addElement(int element);
 
-        // Get the size of the container
-        size_t size() const {
-            return elements.size();
-        }
+        void removeElement(int element);
+
+        size_t size() const;
 
         // Iterator class
         class Iterator {
@@ -31,115 +25,70 @@ namespace ariel {
             size_t position;// NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
 
         public:
-            Iterator(MagicalContainer &container) : container(container), position(0) {}
+            Iterator(MagicalContainer &container);
 
-            // Equality comparison
-            bool operator==(const Iterator &other) const {
-                return position == other.position;
-            }
+            bool operator==(const Iterator &other) const;
 
-            // Inequality comparison
-            bool operator!=(const Iterator &other) const {
-                return !(*this == other);
-            }
+            bool operator!=(const Iterator &other) const;
 
-            // Dereference operator
-            int operator*() const {
-                return container.size(); //TODO
-            }
+            virtual bool operator>(const Iterator &other) const = 0;
+
+            virtual bool operator<(const Iterator &other) const = 0;
+
+            Iterator &operator=(const Iterator  &other);
+
+            int operator*() const;
         };
 
         // AscendingIterator class
         class AscendingIterator : public Iterator {
         public:
-            AscendingIterator(MagicalContainer &container) : Iterator(container) {}
+            AscendingIterator(MagicalContainer &container);
 
-            // Pre-increment operator
-            AscendingIterator &operator++() {
-                ++position;
-                return *this;
-            }
+            AscendingIterator &operator++();
 
-            // Begin iterator function
-            AscendingIterator begin() {
-                return AscendingIterator(container);
-            }
+            bool operator>(const Iterator &other) const override;
 
-            // End iterator function
-            AscendingIterator end() {
-                return AscendingIterator(container); //TODO CHANGE
-            }
+            bool operator<(const Iterator &other) const override;
+
+            AscendingIterator begin();
+
+            AscendingIterator end();
         };
 
         // SideCrossIterator class
         class SideCrossIterator : public Iterator {
         public:
-             SideCrossIterator(MagicalContainer &container) : Iterator(container) {}
+            SideCrossIterator(MagicalContainer &container);
 
-            // Pre-increment operator
-            SideCrossIterator &operator++() {
-                if (position % 2 == 0) {
-                    position += 2;
-                } else {
-                    position = container.size() - 1 - (position - 1);
-                }
-                return *this;
-            }
+            SideCrossIterator &operator++();
 
-            // Begin iterator function
-            SideCrossIterator begin() {
-                return SideCrossIterator(container);
-            }
+            bool operator>(const Iterator &other) const override;
 
-            // End iterator function
-            SideCrossIterator end() {
-                return SideCrossIterator(container); //TODO CHANGE
-            }
+            bool operator<(const Iterator &other) const override;
+
+            SideCrossIterator begin();
+
+            SideCrossIterator end();
         };
 
         // PrimeIterator class
         class PrimeIterator : public Iterator {
         private:
-            static bool isPrime(int number) {
-                if (number <= 1) {
-                    return false;
-                }
-                if (number == 2) {
-                    return true;
-                }
-                if (number % 2 == 0) {
-                    return false;
-                }
-
-                int sqrtNum = static_cast<int>(std::sqrt(number));
-                for (int i = 3; i <= sqrtNum; i += 2) {
-                    if (number % i == 0) { return false; }
-                }
-
-                return true;
-            }
+            static bool isPrime(int number);
 
         public:
-            PrimeIterator(MagicalContainer &container) : Iterator(container) {}
+            PrimeIterator(MagicalContainer &container);
 
-            // Pre-increment operator
-            PrimeIterator &operator++() {
-                ++position;
-//                while (position < container.size() && !isPrime(container[position])) {
-//                    ++position;
-//                }
-                return *this;
-            }
+            PrimeIterator &operator++();
 
-            // Begin iterator function
-            PrimeIterator begin() {
-                return PrimeIterator(container);
-            }
+            bool operator>(const Iterator &other) const override;
 
-            // End iterator function
-            PrimeIterator end() {
-                return PrimeIterator(container);//TODO CHANGE
-            }
+            bool operator<(const Iterator &other) const override;
+
+            PrimeIterator begin();
+
+            PrimeIterator end();
         };
     };
 }
