@@ -35,7 +35,7 @@ namespace ariel {
 
             virtual bool operator<(const Iterator &other) const = 0;
 
-            Iterator &operator=(const Iterator  &other);
+            Iterator &operator=(const Iterator &other);
 
             int operator*() const;
         };
