@@ -5,7 +5,8 @@ Objective: In this assignment, you will create a custom container class named "M
 
 Instructions:
 1.	Create a user-defined container class named "MagicalContainer" that can store integers representing mystical elements. Implement necessary methods for adding elements, removing elements, and retrieving the size of the container. You can use a dynamic array or any other suitable data structure for internal storage.
-2.	Create three custom iterator classes named "AscendingIterator", "SideCrossIterator", and "PrimeIterator" that will allow traversal of elements in the MagicalContainer class in ascending order, cross order, and prime numbers only, respectively. Each iterator should support the following operations:
+2.	Create three custom iterator classes named "AscendingIterator", "SideCrossIterator", and "PrimeIterator" that will allow traversal of elements in the 
+3. MagicalContainer class in ascending order, cross order, and prime numbers only, respectively. Each iterator should support the following operations:
 
 operations:
 
@@ -21,7 +22,8 @@ operations:
 
 •	Inequality comparison (operator!=)
 
-•	GT, LT comparison (operator>, operatorn<) all comparison operators only valid for iterators of the same type of order and should compair the location of the iterator in the container and not the element inside. Example bellow. Using operators on iterators of differant type or differant containers should throw an examtion.
+•	GT, LT comparison (operator>, operatorn<) all comparison operators only valid for iterators of the same type of order and should compare the location of the iterator in the container and not the element inside.
+Example bellow. Using operators on iterators of differant type or differant containers should throw an examtion.
 
 •	Dereference operator (operator*)
 

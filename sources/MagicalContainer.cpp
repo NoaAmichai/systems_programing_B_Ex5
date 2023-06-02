@@ -2,7 +2,6 @@
 #include "MagicalContainer.hpp"
 
 namespace ariel {
-
     //Constructor
     MagicalContainer::MagicalContainer() : elements(0) {
     }

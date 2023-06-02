@@ -22,22 +22,30 @@ namespace ariel {
         class Iterator {
         protected:
             MagicalContainer &container; // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
-            size_t position;// NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+            size_t index;// NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
 
         public:
+            Iterator(Iterator &&other) = default;
+
+            Iterator &operator=(Iterator &&other) = delete;
+
             Iterator(MagicalContainer &container);
+
+            Iterator(const Iterator &other) = default;
+
+            virtual ~Iterator() = default;
 
             bool operator==(const Iterator &other) const;
 
             bool operator!=(const Iterator &other) const;
 
-            virtual bool operator>(const Iterator &other) const = 0;
+            virtual bool operator>(Iterator &other) const = 0;
 
-            virtual bool operator<(const Iterator &other) const = 0;
+            virtual bool operator<(Iterator &other) const = 0;
 
             Iterator &operator=(const Iterator &other);
 
-            int operator*() const;
+            virtual int operator*();
         };
 
         // AscendingIterator class
@@ -47,9 +55,9 @@ namespace ariel {
 
             AscendingIterator &operator++();
 
-            bool operator>(const Iterator &other) const override;
+            bool operator>(Iterator &other) const override;
 
-            bool operator<(const Iterator &other) const override;
+            bool operator<(Iterator &other) const override;
 
             AscendingIterator begin();
 
@@ -58,18 +66,23 @@ namespace ariel {
 
         // SideCrossIterator class
         class SideCrossIterator : public Iterator {
+        private:
+            size_t end_index;
+            bool reverse;
         public:
             SideCrossIterator(MagicalContainer &container);
 
             SideCrossIterator &operator++();
 
-            bool operator>(const Iterator &other) const override;
+            bool operator>(Iterator &other) const override;
 
-            bool operator<(const Iterator &other) const override;
+            bool operator<(Iterator &other) const override;
 
             SideCrossIterator begin();
 
             SideCrossIterator end();
+
+            int operator*()  override;
         };
 
         // PrimeIterator class
@@ -82,9 +95,9 @@ namespace ariel {
 
             PrimeIterator &operator++();
 
-            bool operator>(const Iterator &other) const override;
+            bool operator>(Iterator &other) const override;
 
-            bool operator<(const Iterator &other) const override;
+            bool operator<(Iterator &other) const override;
 
             PrimeIterator begin();
 

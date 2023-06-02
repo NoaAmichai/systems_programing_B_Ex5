@@ -1,12 +1,11 @@
 #include "sources/MagicalContainer.hpp"
 
-// PrimeIterator class
 using namespace std;
 
 namespace ariel {
     MagicalContainer::PrimeIterator::PrimeIterator(MagicalContainer &container) : Iterator(container) {
-        while (position < container.size() && !isPrime(container.elements[position])) {
-            ++position;
+        while (index < container.size() && !isPrime(container.elements[index])) {
+            ++index;
         }
     }
 
@@ -31,9 +30,9 @@ namespace ariel {
 
 // Pre-increment operator
     MagicalContainer::PrimeIterator &MagicalContainer::PrimeIterator::operator++() {
-        ++position;
-        while (position < container.size() && !isPrime(container.elements[position])) {
-            ++position;
+        ++index;
+        while (index < container.size() && !isPrime(container.elements[index])) {
+            ++index;
         }
         return *this;
     }
@@ -46,15 +45,15 @@ namespace ariel {
 // End iterator function
     MagicalContainer::PrimeIterator MagicalContainer::PrimeIterator::end() {
         PrimeIterator it(*this);
-        it.position = container.size();
+        it.index = container.size();
         return it;
     }
 
-    bool MagicalContainer::PrimeIterator::operator>(const MagicalContainer::Iterator &other) const {
+    bool MagicalContainer::PrimeIterator::operator>(MagicalContainer::Iterator &other) const {
         return false;
     }
 
-    bool MagicalContainer::PrimeIterator::operator<(const MagicalContainer::Iterator &other) const {
+    bool MagicalContainer::PrimeIterator::operator<(MagicalContainer::Iterator &other) const {
         return false;
     }
 }
