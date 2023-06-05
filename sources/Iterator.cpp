@@ -1,5 +1,5 @@
 #include <stdexcept>
-#include "sources/MagicalContainer.hpp"
+#include "MagicalContainer.hpp"
 
 using namespace std;
 // Iterator class
@@ -14,11 +14,11 @@ namespace ariel {
 
     // Inequality comparison
     bool MagicalContainer::Iterator::operator!=(const MagicalContainer::Iterator &other) const { //TODO check
-        return !(*this == other);
+        return index != other.index;
     }
 
     // Dereference operator
-    int MagicalContainer::Iterator::operator*()  {
+    int MagicalContainer::Iterator::operator*() {
         if (index >= container.size()) {
             throw out_of_range("Iterator out of range");
         }
@@ -26,8 +26,13 @@ namespace ariel {
     }
 
     MagicalContainer::Iterator &MagicalContainer::Iterator::operator=(const MagicalContainer::Iterator &other) {
+        if (typeid(*this) != typeid(other)) {
+            throw runtime_error("Comparison between iterators of different types.");
+        }
+        if (container.elements != other.container.elements) { //TODO check
+            throw runtime_error("Different containers.");
+        }
         if (*this != other) {
-            container = other.container;
             index = other.index;
         }
         return *this;

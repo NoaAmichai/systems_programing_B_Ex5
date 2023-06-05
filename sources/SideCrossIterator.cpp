@@ -1,5 +1,5 @@
 #include <stdexcept>
-#include "sources/MagicalContainer.hpp"
+#include "MagicalContainer.hpp"
 
 using namespace std;
 
@@ -26,7 +26,6 @@ namespace ariel {
         return *this;
     }
 
-
     int MagicalContainer::SideCrossIterator::operator*() {
         if (index > end_index) {
             throw out_of_range("Iterator out of range");
@@ -38,7 +37,6 @@ namespace ariel {
             reverse = !reverse;
             return container.elements[index];
         }
-
     }
 
     // Begin iterator function
@@ -81,4 +79,7 @@ namespace ariel {
         return index < other_->index;
     }
 
+//    bool MagicalContainer::SideCrossIterator::operator==(const MagicalContainer::SideCrossIterator &other) const {
+//        return index == other.index and end_index == other.end_index;
+//    }
 }

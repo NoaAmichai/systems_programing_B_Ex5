@@ -1,5 +1,5 @@
 #include <stdexcept>
-#include "sources/MagicalContainer.hpp"
+#include "MagicalContainer.hpp"
 
 using namespace std;
 
@@ -9,8 +9,10 @@ namespace ariel {
 
     // Pre-increment operator
     MagicalContainer::AscendingIterator &MagicalContainer::AscendingIterator::operator++() {
-        //TODO check if need out_of_range here
         ++index;
+        if(index > container.elements.size()){
+            throw runtime_error("Iterator out of range");
+        }
         return *this;
     }
 

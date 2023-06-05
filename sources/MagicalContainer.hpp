@@ -3,16 +3,20 @@
 #include <vector>
 #include <cstdio>
 #include <valarray>
+#include <set>
 
 namespace ariel {
     class MagicalContainer {
     private:
         std::vector<int> elements;
-
+        std::vector<int *> prime_elements;
+        std::vector<int *> side_cross_elements;
     public:
         MagicalContainer();
 
         void addElement(int element);
+
+        void addInRightPlace(int element, std::vector<int> &vec);
 
         void removeElement(int element);
 
@@ -35,7 +39,7 @@ namespace ariel {
 
             virtual ~Iterator() = default;
 
-            bool operator==(const Iterator &other) const;
+            virtual bool operator==(const Iterator &other) const;
 
             bool operator!=(const Iterator &other) const;
 
@@ -82,14 +86,13 @@ namespace ariel {
 
             SideCrossIterator end();
 
-            int operator*()  override;
+            int operator*() override;
+
+//            bool operator==(const MagicalContainer::SideCrossIterator &other) const;
         };
 
         // PrimeIterator class
         class PrimeIterator : public Iterator {
-        private:
-            static bool isPrime(int number);
-
         public:
             PrimeIterator(MagicalContainer &container);
 
@@ -103,5 +106,9 @@ namespace ariel {
 
             PrimeIterator end();
         };
+
+        bool isPrime(int element);
+
+        void PointerInRightPlace(int *element, std::vector<int *> &vec);
     };
 }
