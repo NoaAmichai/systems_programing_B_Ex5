@@ -73,6 +73,22 @@ MagicalContainer::SideCrossIterator::validateAndCast(const Iterator &other) cons
     return other_pointer;
 }
 
+bool MagicalContainer::SideCrossIterator::operator==(const SideCrossIterator &other) const {
+    return this->index == other.index;
+}
+
+bool MagicalContainer::SideCrossIterator::operator!=(const SideCrossIterator &other) const {
+    return !(*this == other);
+}
+
+bool MagicalContainer::SideCrossIterator::operator>(const SideCrossIterator &other) const {
+    return this->index > other.index;
+}
+
+bool MagicalContainer::SideCrossIterator::operator<(const SideCrossIterator &other) const {
+    return !(*this > other) && (other != other);
+}
+
 MagicalContainer::SideCrossIterator MagicalContainer::SideCrossIterator::begin() const {
     return {(*this)};
 }

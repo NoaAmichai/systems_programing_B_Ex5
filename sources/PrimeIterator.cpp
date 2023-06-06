@@ -72,6 +72,23 @@ MagicalContainer::PrimeIterator::validateAndCast(const Iterator &other) const {
     return other_pointer;
 }
 
+bool MagicalContainer::PrimeIterator::operator==(const PrimeIterator &other) const {
+    return index == other.index;
+}
+
+bool MagicalContainer::PrimeIterator::operator!=(const PrimeIterator &other) const {
+    return !(*this == other);
+}
+
+bool MagicalContainer::PrimeIterator::operator>(const PrimeIterator &other) const {
+    return index > other.index;
+}
+
+bool MagicalContainer::PrimeIterator::operator<(const PrimeIterator &other) const {
+    return !(*this > other) && (other != other);
+}
+
+
 // Begin iterator function
 MagicalContainer::PrimeIterator MagicalContainer::PrimeIterator::begin() const {
     return {*this};

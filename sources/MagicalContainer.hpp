@@ -30,6 +30,13 @@ namespace ariel {
 
         bool isPrime(int element);
 
+        //for tidy
+        MagicalContainer(const MagicalContainer& other) = delete;
+        MagicalContainer& operator=(const MagicalContainer& other) = default;
+        MagicalContainer(MagicalContainer&& other) = delete;
+        MagicalContainer& operator=(MagicalContainer&& other) = delete;
+
+
 
         // AscendingIterator class
         class AscendingIterator : public Iterator {
@@ -41,6 +48,10 @@ namespace ariel {
 
         public:
             AscendingIterator(MagicalContainer &container);
+
+            //for tidy
+            AscendingIterator(AscendingIterator&& other) = default;
+            AscendingIterator& operator=(AscendingIterator&& other) = delete;
 
             AscendingIterator(const AscendingIterator &other);
 
@@ -60,6 +71,11 @@ namespace ariel {
 
             bool operator>(const Iterator &other) const override;
 
+            bool operator==(const AscendingIterator &other) const;
+            bool operator!=(const AscendingIterator &other) const;
+            bool operator>(const AscendingIterator &other) const;
+            bool operator<(const AscendingIterator &other) const;
+
             AscendingIterator begin() const;
 
             AscendingIterator end() const;
@@ -78,6 +94,9 @@ namespace ariel {
 
             SideCrossIterator(const SideCrossIterator &other);
 
+            SideCrossIterator(SideCrossIterator&& other) = default;
+            SideCrossIterator& operator=(SideCrossIterator&& other) = delete;
+
             ~SideCrossIterator() override = default;
 
             SideCrossIterator &operator=(const SideCrossIterator &other);
@@ -94,6 +113,11 @@ namespace ariel {
 
             bool operator>(const Iterator &other) const override;
 
+            bool operator==(const SideCrossIterator &other) const;
+            bool operator!=(const SideCrossIterator &other) const;
+            bool operator>(const SideCrossIterator &other) const;
+            bool operator<(const SideCrossIterator &other) const;
+
             SideCrossIterator begin() const;
 
             SideCrossIterator end() const;
@@ -109,24 +133,25 @@ namespace ariel {
 
         public:
             PrimeIterator(MagicalContainer &container);
-
             PrimeIterator(const PrimeIterator &other);
+            PrimeIterator(PrimeIterator&& other) = default;
+            PrimeIterator& operator=(PrimeIterator&& other) = delete;
+
 
             ~PrimeIterator() override = default;
-
             PrimeIterator &operator=(const PrimeIterator &other);
-
             PrimeIterator &operator++();
-
             int operator*();
 
             bool operator==(const Iterator &other) const override;
-
             bool operator!=(const Iterator &other) const override;
-
             bool operator<(const Iterator &other) const override;
-
             bool operator>(const Iterator &other) const override;
+
+            bool operator==(const PrimeIterator &other) const;
+            bool operator!=(const PrimeIterator &other) const;
+            bool operator>(const PrimeIterator &other) const;
+            bool operator<(const PrimeIterator &other) const;
 
             PrimeIterator begin() const;
 

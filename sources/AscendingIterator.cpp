@@ -73,6 +73,22 @@ MagicalContainer::AscendingIterator::validateAndCast(const Iterator &other) cons
     return other_pointer;
 }
 
+bool MagicalContainer::AscendingIterator::operator==(const AscendingIterator &other) const {
+    return index == other.index;
+}
+
+bool MagicalContainer::AscendingIterator::operator!=(const AscendingIterator &other) const {
+    return !(*this == other);
+}
+
+bool MagicalContainer::AscendingIterator::operator>(const AscendingIterator &other) const {
+    return index > other.index;
+}
+
+bool MagicalContainer::AscendingIterator::operator<(const AscendingIterator &other) const {
+    return !(*this > other) && (other != other);
+}
+
 // Begin iterator function
 MagicalContainer::AscendingIterator MagicalContainer::AscendingIterator::begin() const {
     return {*this};
@@ -84,3 +100,4 @@ MagicalContainer::AscendingIterator MagicalContainer::AscendingIterator::end() c
     it.index = container.elements.size();
     return it;
 }
+

@@ -48,12 +48,12 @@ void MagicalContainer::addElement(int element) {
 void MagicalContainer::insertIntoPrime(int element) {
     // Todo - the other option to this function is to clear the prime vector and insert all the elements again
     // Find the correct position to insert the prime number
-    int insertIndex = 0;
-    while (insertIndex < prime_elements.size() && element > *prime_elements[insertIndex]) {
+    std::vector<int>::size_type insertIndex = 0;
+    while (insertIndex < prime_elements.size() && element > *prime_elements.at(insertIndex)) {
         insertIndex++;
     }
     // Insert the prime number at the found position
-    prime_elements.insert(prime_elements.begin() + insertIndex, new int(element));
+    prime_elements.insert(prime_elements.begin() + static_cast<std::vector<int>::difference_type>(insertIndex), new int(element));
 }
 
 // Insert an ekement to the elements vector in ascending order
