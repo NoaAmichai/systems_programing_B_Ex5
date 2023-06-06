@@ -20,20 +20,16 @@ int main() {
     MagicalContainer::AscendingIterator ascIter(container);
     for (auto it = ascIter.begin(); it != ascIter.end(); ++it) {
         std::cout << *it << ' ';   // 2 3 9 17 25
-//        if (*it == 3) {
-//            container.addElement(1);
-//            ++it;
-//        }
     }
     std::cout << std::endl;
 
-//    // Use DescendingIterator to display elements in descending order
-//    std::cout << "Elements in cross order:\n";
-//    MagicalContainer::SideCrossIterator crossIter(container);
-//    for (auto it = crossIter.begin(); it != crossIter.end(); ++it) {
-//        std::cout << *it << ' ';  // 2 25 3 17 9
-//    }
-//    std::cout << std::endl;
+    // Use DescendingIterator to display elements in descending order
+    std::cout << "Elements in cross order:\n";
+    MagicalContainer::SideCrossIterator crossIter(container);
+    for (auto it = crossIter.begin(); it != crossIter.end(); ++it) {
+        std::cout << *it << ' ';  // 2 25 3 17 9
+    }
+    std::cout << std::endl;
 
     // Use PrimeIterator to display prime numbers only
     std::cout << "Prime numbers:\n";

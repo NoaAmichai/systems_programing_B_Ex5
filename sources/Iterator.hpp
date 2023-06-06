@@ -1,6 +1,5 @@
 #pragma once
 namespace ariel{
-    // Iterator class
     class Iterator {
     public:
         virtual bool operator==(const Iterator& other) const = 0;

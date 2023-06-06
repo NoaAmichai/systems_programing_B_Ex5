@@ -1,10 +1,10 @@
 #pragma once
-
+#include "Iterator.hpp"
 #include <vector>
 #include <cstdio>
 #include <valarray>
 #include <set>
-#include "Iterator.hpp"
+
 
 namespace ariel {
     class MagicalContainer {
@@ -12,18 +12,24 @@ namespace ariel {
         std::vector<int> elements;
         std::vector<int *> prime_elements;
         std::vector<int *> side_cross_elements;
+
+        void insertInSortedOrder(int element);
+        void insertIntoPrime(int element);
+        void rearrangeSideCross();
+
     public:
         MagicalContainer();
 
-        void addElement(int element);
+        ~MagicalContainer();
 
-        bool isPrime(int element);
+        void addElement(int element);
 
         void removeElement(int element);
 
         size_t size() const;
 
-        void insertInSortedOrder(int element);
+        bool isPrime(int element);
+
 
         // AscendingIterator class
         class AscendingIterator : public Iterator {
@@ -64,10 +70,9 @@ namespace ariel {
         private:
             MagicalContainer &container;
             size_t index;
-            size_t end_index;
-            bool reverse;
 
             const SideCrossIterator *validateAndCast(const Iterator &other) const;
+
         public:
             SideCrossIterator(MagicalContainer &container);
 
