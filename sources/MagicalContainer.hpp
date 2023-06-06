@@ -4,6 +4,7 @@
 #include <cstdio>
 #include <valarray>
 #include <set>
+#include "Iterator.hpp"
 
 namespace ariel {
     class MagicalContainer {
@@ -16,99 +17,116 @@ namespace ariel {
 
         void addElement(int element);
 
-        void addInRightPlace(int element, std::vector<int> &vec);
+        bool isPrime(int element);
 
         void removeElement(int element);
 
         size_t size() const;
 
-        // Iterator class
-        class Iterator {
-        protected:
-            MagicalContainer &container; // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
-            size_t index;// NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
-
-        public:
-            Iterator(Iterator &&other) = default;
-
-            Iterator &operator=(Iterator &&other) = delete;
-
-            Iterator(MagicalContainer &container);
-
-            Iterator(const Iterator &other) = default;
-
-            virtual ~Iterator() = default;
-
-            virtual bool operator==(const Iterator &other) const;
-
-            bool operator!=(const Iterator &other) const;
-
-            virtual bool operator>(Iterator &other) const = 0;
-
-            virtual bool operator<(Iterator &other) const = 0;
-
-            Iterator &operator=(const Iterator &other);
-
-            virtual int operator*();
-        };
+        void insertInSortedOrder(int element);
 
         // AscendingIterator class
         class AscendingIterator : public Iterator {
+        private:
+            MagicalContainer &container;
+            size_t index;
+
+            const AscendingIterator *validateAndCast(const Iterator &other) const;
+
         public:
             AscendingIterator(MagicalContainer &container);
 
+            AscendingIterator(const AscendingIterator &other);
+
+            ~AscendingIterator() override = default;
+
+            AscendingIterator &operator=(const AscendingIterator &other);
+
             AscendingIterator &operator++();
 
-            bool operator>(Iterator &other) const override;
+            int operator*();
 
-            bool operator<(Iterator &other) const override;
+            bool operator==(const Iterator &other) const override;
 
-            AscendingIterator begin();
+            bool operator!=(const Iterator &other) const override;
 
-            AscendingIterator end();
+            bool operator<(const Iterator &other) const override;
+
+            bool operator>(const Iterator &other) const override;
+
+            AscendingIterator begin() const;
+
+            AscendingIterator end() const;
         };
 
         // SideCrossIterator class
         class SideCrossIterator : public Iterator {
         private:
+            MagicalContainer &container;
+            size_t index;
             size_t end_index;
             bool reverse;
+
+            const SideCrossIterator *validateAndCast(const Iterator &other) const;
         public:
             SideCrossIterator(MagicalContainer &container);
 
+            SideCrossIterator(const SideCrossIterator &other);
+
+            ~SideCrossIterator() override = default;
+
+            SideCrossIterator &operator=(const SideCrossIterator &other);
+
             SideCrossIterator &operator++();
 
-            bool operator>(Iterator &other) const override;
+            int operator*();
 
-            bool operator<(Iterator &other) const override;
+            bool operator==(const Iterator &other) const override;
 
-            SideCrossIterator begin();
+            bool operator!=(const Iterator &other) const override;
 
-            SideCrossIterator end();
+            bool operator<(const Iterator &other) const override;
 
-            int operator*() override;
+            bool operator>(const Iterator &other) const override;
 
-//            bool operator==(const MagicalContainer::SideCrossIterator &other) const;
+            SideCrossIterator begin() const;
+
+            SideCrossIterator end() const;
         };
 
         // PrimeIterator class
         class PrimeIterator : public Iterator {
+        private:
+            MagicalContainer &container;
+            size_t index;
+
+            const PrimeIterator *validateAndCast(const Iterator &other) const;
+
         public:
             PrimeIterator(MagicalContainer &container);
 
+            PrimeIterator(const PrimeIterator &other);
+
+            ~PrimeIterator() override = default;
+
+            PrimeIterator &operator=(const PrimeIterator &other);
+
             PrimeIterator &operator++();
 
-            bool operator>(Iterator &other) const override;
+            int operator*();
 
-            bool operator<(Iterator &other) const override;
+            bool operator==(const Iterator &other) const override;
 
-            PrimeIterator begin();
+            bool operator!=(const Iterator &other) const override;
 
-            PrimeIterator end();
+            bool operator<(const Iterator &other) const override;
+
+            bool operator>(const Iterator &other) const override;
+
+            PrimeIterator begin() const;
+
+            PrimeIterator end() const;
         };
 
-        bool isPrime(int element);
-
-        void PointerInRightPlace(int *element, std::vector<int *> &vec);
     };
 }

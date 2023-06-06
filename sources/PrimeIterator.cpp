@@ -4,74 +4,83 @@
 using namespace std;
 
 namespace ariel {
-    MagicalContainer::PrimeIterator::PrimeIterator(MagicalContainer &container) : Iterator(container) {
-//        while (index < container.size() && !isPrime(container.elements[index])) {
-//            ++index;
-//        }
+    MagicalContainer::PrimeIterator::PrimeIterator(MagicalContainer &container) : container(container),
+                                                                                  index(0) {}
+
+    MagicalContainer::PrimeIterator::PrimeIterator(const MagicalContainer::PrimeIterator &other) : container(
+            other.container), index(other.index) {
+        if (&container != &other.container)
+            throw std::runtime_error("Iterators must belong to the same container.");
     }
 
-//    bool MagicalContainer::PrimeIterator::isPrime(int number) {
-//        if (number <= 1) {
-//            return false;
-//        }
-//        if (number == 2) {
-//            return true;
-//        }
-//        if (number % 2 == 0) {
-//            return false;
-//        }
-//
-//        int sqrtNum = int(sqrt(number));
-//        for (int i = 3; i <= sqrtNum; i += 2) {
-//            if (number % i == 0) { return false; }
-//        }
-//
-//        return true;
-//    }
+    MagicalContainer::PrimeIterator &
+    MagicalContainer::PrimeIterator::operator=(const MagicalContainer::PrimeIterator &other) {
+        if (this != &other) {
+            if (&container != &other.container)
+                throw std::runtime_error("Iterators must belong to the same container.");
+            container = other.container;
+            index = other.index;
+        }
+        return *this;
+    }
 
-// Pre-increment operator
+    // Pre-increment operator
     MagicalContainer::PrimeIterator &MagicalContainer::PrimeIterator::operator++() {
         ++index;
-//        while (index < container.size() && !isPrime(container.elements[index])) {
-//            ++index;
-//        }
-        if (index > container.elements.size()) {
+        if (index > container.prime_elements.size()) {
             throw runtime_error("Iterator out of range");
         }
         return *this;
     }
 
+    int MagicalContainer::PrimeIterator::operator*() {
+        if (index >= container.prime_elements.size())
+            throw std::out_of_range("Iterator out of range");
+        return *(container.prime_elements.at(index));
+    }
+
+    bool MagicalContainer::PrimeIterator::operator==(const Iterator &other) const {
+        auto *other_pointer = validateAndCast(other);
+        return index == other_pointer->index;
+    }
+
+    bool MagicalContainer::PrimeIterator::operator!=(const Iterator &other) const {
+        auto *other_pointer = validateAndCast(other);
+        return index != other_pointer->index;
+    }
+
+    bool MagicalContainer::PrimeIterator::operator<(const Iterator &other) const {
+        auto *other_pointer = validateAndCast(other);
+        return index < other_pointer->index;
+    }
+
+    bool MagicalContainer::PrimeIterator::operator>(const Iterator &other) const {
+        auto *other_pointer = validateAndCast(other);
+        return index > other_pointer->index;
+    }
+
+    const MagicalContainer::PrimeIterator *
+    MagicalContainer::PrimeIterator::validateAndCast(const Iterator &other) const {
+        const auto *other_pointer = dynamic_cast<const PrimeIterator *>(&other);
+
+        if (other_pointer == nullptr)
+            throw std::runtime_error("Invalid iterator comparison. Only AscendingIterator can be compared.");
+
+        if (&container != &other_pointer->container)
+            throw std::runtime_error("Iterators must belong to the same container.");
+
+        return other_pointer;
+    }
+
     // Begin iterator function
-    MagicalContainer::PrimeIterator MagicalContainer::PrimeIterator::begin() {
+    MagicalContainer::PrimeIterator MagicalContainer::PrimeIterator::begin() const {
         return {*this};
     }
 
     // End iterator function
-    MagicalContainer::PrimeIterator MagicalContainer::PrimeIterator::end() {
+    MagicalContainer::PrimeIterator MagicalContainer::PrimeIterator::end() const {
         PrimeIterator it(*this);
-        it.index = container.size();
+        it.index = container.prime_elements.size();
         return it;
-    }
-
-    bool MagicalContainer::PrimeIterator::operator>(MagicalContainer::Iterator &other) const {
-        if (typeid(*this) != typeid(other)) {
-            throw runtime_error("Comparison between iterators of different types.");
-        }
-        auto *other_ = dynamic_cast<PrimeIterator *>(&other);
-        if (container.elements != other_->container.elements) { //TODO not sure that this is the right way to do it
-            throw runtime_error("Comparison between iterators of different containers.");
-        }
-        return index > other_->index;
-    }
-
-    bool MagicalContainer::PrimeIterator::operator<(MagicalContainer::Iterator &other) const {
-        if (typeid(*this) != typeid(other)) {
-            throw runtime_error("Comparison between iterators of different types.");
-        }
-        auto *other_ = dynamic_cast<PrimeIterator *>(&other);
-        if (container.elements != other_->container.elements) { //TODO not sure that this is the right way to do it
-            throw runtime_error("Comparison between iterators of different containers.");
-        }
-        return index < other_->index;
     }
 }
