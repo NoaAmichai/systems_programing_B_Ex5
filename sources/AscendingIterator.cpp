@@ -2,14 +2,12 @@
 #include "MagicalContainer.hpp"
 
 using namespace std;
-
 using namespace ariel;
 
-MagicalContainer::AscendingIterator::AscendingIterator(MagicalContainer &container) : container(container),
-                                                                                      index(0) {}
+MagicalContainer::AscendingIterator::AscendingIterator(MagicalContainer &container) : Iterator(container) {}
 
-MagicalContainer::AscendingIterator::AscendingIterator(const MagicalContainer::AscendingIterator &other)
-        : container(other.container), index(other.index) {
+MagicalContainer::AscendingIterator::AscendingIterator(const MagicalContainer::AscendingIterator &other) : Iterator(
+        other) {
     if (&container != &other.container)
         throw std::runtime_error("Iterators must belong to the same container.");
 }
@@ -40,55 +38,6 @@ int MagicalContainer::AscendingIterator::operator*() {
     return container.elements[index];
 }
 
-bool MagicalContainer::AscendingIterator::operator==(const Iterator &other) const {
-    auto *other_pointer = validateAndCast(other);
-    return index == other_pointer->index;
-}
-
-bool MagicalContainer::AscendingIterator::operator!=(const Iterator &other) const {
-    auto *other_pointer = validateAndCast(other);
-    return index != other_pointer->index;
-}
-
-bool MagicalContainer::AscendingIterator::operator<(const Iterator &other) const {
-    auto *other_pointer = validateAndCast(other);
-    return index < other_pointer->index;
-}
-
-bool MagicalContainer::AscendingIterator::operator>(const Iterator &other) const {
-    auto *other_pointer = validateAndCast(other);
-    return index > other_pointer->index;
-}
-
-const MagicalContainer::AscendingIterator *
-MagicalContainer::AscendingIterator::validateAndCast(const Iterator &other) const {
-    const auto *other_pointer = dynamic_cast<const AscendingIterator *>(&other);
-
-    if (other_pointer == nullptr)
-        throw std::runtime_error("Invalid iterator comparison. Only AscendingIterator can be compared.");
-
-    if (&container != &other_pointer->container)
-        throw std::runtime_error("Iterators must belong to the same container.");
-
-    return other_pointer;
-}
-
-bool MagicalContainer::AscendingIterator::operator==(const AscendingIterator &other) const {
-    return index == other.index;
-}
-
-bool MagicalContainer::AscendingIterator::operator!=(const AscendingIterator &other) const {
-    return !(*this == other);
-}
-
-bool MagicalContainer::AscendingIterator::operator>(const AscendingIterator &other) const {
-    return index > other.index;
-}
-
-bool MagicalContainer::AscendingIterator::operator<(const AscendingIterator &other) const {
-    return !(*this > other) && (other != other);
-}
-
 // Begin iterator function
 MagicalContainer::AscendingIterator MagicalContainer::AscendingIterator::begin() const {
     return {*this};
@@ -100,4 +49,3 @@ MagicalContainer::AscendingIterator MagicalContainer::AscendingIterator::end() c
     it.index = container.elements.size();
     return it;
 }
-

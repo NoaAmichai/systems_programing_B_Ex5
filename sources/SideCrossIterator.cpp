@@ -2,14 +2,12 @@
 #include "MagicalContainer.hpp"
 
 using namespace std;
-
 using namespace ariel;
 
-MagicalContainer::SideCrossIterator::SideCrossIterator(MagicalContainer &container) : container(container),
-                                                                                      index(0) {}
+MagicalContainer::SideCrossIterator::SideCrossIterator(MagicalContainer &container) : Iterator(container) {}
 
 MagicalContainer::SideCrossIterator::SideCrossIterator(const MagicalContainer::SideCrossIterator &other)
-        : container(other.container), index(other.index) {
+        : Iterator(other) {
     if (&container != &other.container)
         throw std::runtime_error("Iterators must belong to the same container.");
 }
@@ -38,55 +36,6 @@ int MagicalContainer::SideCrossIterator::operator*() {
     if (index >= container.side_cross_elements.size())
         throw std::out_of_range("Iterator out of range");
     return *container.side_cross_elements[index];
-}
-
-bool MagicalContainer::SideCrossIterator::operator==(const Iterator &other) const {
-    auto *other_pointer = validateAndCast(other);
-    return index == other_pointer->index;
-}
-
-bool MagicalContainer::SideCrossIterator::operator!=(const Iterator &other) const {
-    auto *other_pointer = validateAndCast(other);
-    return index != other_pointer->index;
-}
-
-bool MagicalContainer::SideCrossIterator::operator<(const Iterator &other) const {
-    auto *other_pointer = validateAndCast(other);
-    return index < other_pointer->index;
-}
-
-bool MagicalContainer::SideCrossIterator::operator>(const Iterator &other) const {
-    auto *other_pointer = validateAndCast(other);
-    return index > other_pointer->index;
-}
-
-const MagicalContainer::SideCrossIterator *
-MagicalContainer::SideCrossIterator::validateAndCast(const Iterator &other) const {
-    const auto *other_pointer = dynamic_cast<const SideCrossIterator *>(&other);
-
-    if (other_pointer == nullptr)
-        throw std::runtime_error("Invalid iterator comparison. Only AscendingIterator can be compared.");
-
-    if (&container != &other_pointer->container)
-        throw std::runtime_error("Iterators must belong to the same container.");
-
-    return other_pointer;
-}
-
-bool MagicalContainer::SideCrossIterator::operator==(const SideCrossIterator &other) const {
-    return this->index == other.index;
-}
-
-bool MagicalContainer::SideCrossIterator::operator!=(const SideCrossIterator &other) const {
-    return !(*this == other);
-}
-
-bool MagicalContainer::SideCrossIterator::operator>(const SideCrossIterator &other) const {
-    return this->index > other.index;
-}
-
-bool MagicalContainer::SideCrossIterator::operator<(const SideCrossIterator &other) const {
-    return !(*this > other) && (other != other);
 }
 
 MagicalContainer::SideCrossIterator MagicalContainer::SideCrossIterator::begin() const {

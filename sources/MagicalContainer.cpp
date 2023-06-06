@@ -33,13 +33,10 @@ bool MagicalContainer::isPrime(int element) {
 void MagicalContainer::addElement(int element) {
     // Add the element to the elements vector in ascending order
     insertInSortedOrder(element);
-
     // If the element is prime, add a pointer to primePointers vector in ascending order
     if (isPrime(element)) {
-//            prime_elements.clear();
         insertIntoPrime(element);
     }
-
     // Rearrange the sideCross vector
     rearrangeSideCross();
 }
@@ -56,14 +53,13 @@ void MagicalContainer::insertIntoPrime(int element) {
     prime_elements.insert(prime_elements.begin() + static_cast<std::vector<int>::difference_type>(insertIndex), new int(element));
 }
 
-// Insert an ekement to the elements vector in ascending order
+// Insert an element to the elements vector in ascending order
 void MagicalContainer::insertInSortedOrder(int element) {
     // Check if the container is empty or if the new element is greater than the last element
     if (elements.empty() || element > elements.back()) {
         elements.push_back(element);
         return;
     }
-
     // Iterate through the container to find the correct position to insert the element
     for (auto it = elements.begin(); it != elements.end(); ++it) {
         if (element <= *it) {
@@ -100,10 +96,8 @@ void MagicalContainer::removeElement(int element) {
         throw runtime_error("Element doesn't exists");
     }
     elements.erase(it);
-
     // Rearrange the sideCross vector
     rearrangeSideCross();
-
     //if element is prime, remove it from prime vector and delete it's pointer
     if (isPrime(element)) {
         auto it_prime = std::find(prime_elements.begin(), prime_elements.end(), &element);
@@ -115,4 +109,24 @@ void MagicalContainer::removeElement(int element) {
 // Get the size of the container
 size_t MagicalContainer::size() const {
     return elements.size();
+}
+
+MagicalContainer::Iterator::Iterator(const MagicalContainer &container) : container(
+        const_cast<MagicalContainer &>(container)), index(0) {
+}
+
+bool MagicalContainer::Iterator::operator==(const MagicalContainer::Iterator &other) const {
+    return index == other.index;
+}
+
+bool MagicalContainer::Iterator::operator!=(const MagicalContainer::Iterator &other) const {
+    return index != other.index;
+}
+
+bool MagicalContainer::Iterator::operator<(const MagicalContainer::Iterator &other) const {
+    return index < other.index;
+}
+
+bool MagicalContainer::Iterator::operator>(const MagicalContainer::Iterator &other) const {
+    return index > other.index;
 }
